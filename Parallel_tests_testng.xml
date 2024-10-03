@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="3" parallel="tests" name="Parallel Tests Suite">
+
+
+  <test name="RegisterTest_Parallel">
+    <classes>
+      <class name="com.tutorialsNinja.TestCases.RegisterTest"/>
+    </classes>
+  </test> 
+  
+  <test name="LoginTest_Parallel">
+    <classes> 
+      <class name="com.tutorialsNinja.TestCases.LoginTest"/>
+    </classes>
+  </test> 
+  
+  <test name="SearchProductTest_Parallel">
+    <classes>
+      <class name="com.tutorialsNinja.TestCases.SearchProductTest"/>
+    </classes>
+  </test> 
+  
+  
+</suite> 
