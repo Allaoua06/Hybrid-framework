@@ -57,8 +57,15 @@ public class LandingPage {
 		searchTextBox.sendKeys(ProductText);
 	}
 	
-	public void clickOnSearchButton() {
+	public ProductPage clickOnSearchButton() {
 		searchButton.click();
+		return new ProductPage(driver);
+	}
+	
+	public ProductPage navigateToProductPage(String ProductText) {
+		searchTextBox.sendKeys(ProductText);
+		searchButton.click();
+		return new ProductPage(driver);
 	}
 
 }

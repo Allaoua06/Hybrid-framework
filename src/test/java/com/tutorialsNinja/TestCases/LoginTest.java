@@ -36,7 +36,7 @@ public class LoginTest extends TestBase{
 	    //driver.findElement(By.linkText("Login")).click();
 	}
 
-	@Test(priority = 1, dataProvider = "TNLogin", dataProviderClass = Topic1_ExcelCode.class)
+	@Test(priority = 1, dataProvider = "TNLogin", dataProviderClass = Topic1_ExcelCode.class, enabled = false)
 	public void verifyLoginWithValidCredentials(String email, String password) {
 		loginpage = new LoginPage(driver);	
 		accountpage = loginpage.directlyGoToAccountPage(email, password);

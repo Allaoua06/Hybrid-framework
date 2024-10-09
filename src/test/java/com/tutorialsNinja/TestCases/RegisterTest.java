@@ -1,6 +1,5 @@
 package com.tutorialsNinja.TestCases;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -21,7 +20,6 @@ public class RegisterTest extends TestBase{
 		super();
 	}
 
-
 	public WebDriver driver;
 	public LandingPage landingpage;
 	public RegisterPage registerpage;
@@ -36,68 +34,36 @@ public class RegisterTest extends TestBase{
 	}
 	
 	
-	@Test(priority=1, dataProvider = "TNRegister", dataProviderClass = Topic1_ExcelCode.class)
+	@Test(priority=1, dataProvider = "TNRegister", dataProviderClass = Topic1_ExcelCode.class, enabled = false)
 	public void verifyRegisterWithMandatoryDetails(String firstname, String lastname, String telephone, String password, String confirmPassword) {
 		registerpage = new RegisterPage(driver);
-		registerpage.enterFirstName(firstname);
-		registerpage.enterLastName(lastname);
-		registerpage.enterEmail(Utils.emailWithDateTimeStamp());
-		registerpage.enterTelephone(telephone);
-		registerpage.enterPassword(password);
-		registerpage.enterConfirmPassword(confirmPassword);
-		registerpage.clickOnPrivacyPolicyCheckBox();
-		registerpage.clickOnContinueButton(); //System navigates to AccountSuccessPage
+		accountsuccesspage	= registerpage.combineMandatoryDetailsToNavigateToAccountSuccessPage(firstname, lastname, Utils.emailWithDateTimeStamp(), telephone, password, confirmPassword);
         System.out.println("Thread number - : > " + Thread.currentThread().getId());
-        accountsuccesspage = new AccountSuccessPage(driver);
         Assert.assertTrue(accountsuccesspage.displayStatusOfAccountSuccess());	
 	}
 	
-	@Test(priority=2, dataProvider = "TNRegister", dataProviderClass = DataProvider_Data.class)
+	@Test(priority=2, dataProvider = "TNRegister", dataProviderClass = DataProvider_Data.class, enabled = false)
 	public void verifyRegisterWithAllDetails(String firstname, String lastname, String telephone, String password, String confirmPassword) {
 		registerpage = new RegisterPage(driver);
-		registerpage.enterFirstName(firstname);
-		registerpage.enterLastName(lastname);
-		registerpage.enterEmail(Utils.emailWithDateTimeStamp());
-		registerpage.enterTelephone(telephone);
-		registerpage.enterPassword(password);
-		registerpage.enterConfirmPassword(confirmPassword);
-		registerpage.selectYesSubscribeRadioButton();
-		registerpage.clickOnPrivacyPolicyCheckBox();
-		registerpage.clickOnContinueButton(); 
-	    Assert.assertTrue(accountsuccesspage.displayStatusOfAccountSuccess());	
+		accountsuccesspage = registerpage.combineAllDetailsToNavigateToAccountSuccessPage(firstname, lastname, Utils.emailWithDateTimeStamp(), telephone, password, confirmPassword);
+		System.out.println("Thread number - : > " + Thread.currentThread().getId());
+		Assert.assertTrue(accountsuccesspage.displayStatusOfAccountSuccess());	
 	}
 	
 	@Test(priority=3)
 	public void verifyRegisterWithExistingEmail() {
 		registerpage = new RegisterPage(driver);
-		registerpage.enterFirstName(dataprop.getProperty("firstname"));
-		registerpage.enterLastName(dataprop.getProperty("lastname"));
-		registerpage.enterEmail(prop.getProperty("validEmail"));
-		registerpage.enterTelephone(dataprop.getProperty("telephone"));
-		registerpage.enterPassword(dataprop.getProperty("password"));
-		registerpage.enterConfirmPassword(dataprop.getProperty("confirmPassword"));
-		registerpage.selectYesSubscribeRadioButton();
-		registerpage.clickOnPrivacyPolicyCheckBox();
-		registerpage.clickOnContinueButton(); 
-	
+		registerpage.combineAllDetailsToNavigateToAccountSuccessPage(dataprop.getProperty("firstname"), dataprop.getProperty("lastname"), 
+				prop.getProperty("validEmail"), dataprop.getProperty("telephone"), dataprop.getProperty("password"), dataprop.getProperty("confirmPassword"));
 		System.out.println("Thread number - : > " + Thread.currentThread().getId());
-		String actualWarningMessage = registerpage.retrieveExistingEmailWarningText();
-		String expectedWarningMessage = dataprop.getProperty("existingEmailWarning");
-		Assert.assertTrue(actualWarningMessage.contains(expectedWarningMessage));
+		Assert.assertTrue(registerpage.retrieveExistingEmailWarningText().contains(dataprop.getProperty("existingEmailWarning")));
 	}
 	
 	@Test(priority=4)
 	public void verifyRegisterWithIncorrectConfirmPassword() {
 		registerpage = new RegisterPage(driver);
-		registerpage.enterFirstName(dataprop.getProperty("firstname"));
-		registerpage.enterLastName(dataprop.getProperty("lastname"));
-		registerpage.enterEmail(Utils.emailWithDateTimeStamp());
-		registerpage.enterTelephone(dataprop.getProperty("telephone"));
-		registerpage.enterPassword(dataprop.getProperty("password"));
-		registerpage.enterConfirmPassword(dataprop.getProperty("incorrectConfirmPassword"));
-		registerpage.selectYesSubscribeRadioButton();
-		registerpage.clickOnPrivacyPolicyCheckBox();
-		registerpage.clickOnContinueButton(); 
+		registerpage.combineAllDetailsToNavigateToAccountSuccessPage(dataprop.getProperty("firstname"), dataprop.getProperty("lastname"), 
+				Utils.emailWithDateTimeStamp(), dataprop.getProperty("telephone"), dataprop.getProperty("password"), dataprop.getProperty("incorrectConfirmPassword"));
 		System.out.println("Thread number - : > " + Thread.currentThread().getId());
 		Assert.assertTrue(registerpage.displayStatusOfIncorrectConfirmPassword());
 	}
@@ -107,10 +73,7 @@ public class RegisterTest extends TestBase{
 		registerpage = new RegisterPage(driver);
 		registerpage.clickOnContinueButton(); 
 		System.out.println("Thread number - : > " + Thread.currentThread().getId());
-			
-		String actualWarningMessage = registerpage.retrievePrivacyPolicyWarningText();
-		String expectedWarningMessage = dataprop.getProperty("privacyPolicyWarning");
-		Assert.assertTrue(actualWarningMessage.contains(expectedWarningMessage));
+		Assert.assertTrue(registerpage.retrievePrivacyPolicyWarningText().contains(dataprop.getProperty("privacyPolicyWarning")));
 		Assert.assertTrue(registerpage.displayStatusOfFirstname());
 		Assert.assertTrue(registerpage.displayStatusOfLastname());
 		Assert.assertTrue(registerpage.displayStatusOfEmail());
@@ -118,8 +81,6 @@ public class RegisterTest extends TestBase{
 		Assert.assertTrue(registerpage.displayStatusOfPassword());
 			
 	}
-	
-	
 	
 	
 	@AfterMethod

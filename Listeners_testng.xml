@@ -3,7 +3,7 @@
 <suite thread-count="3" parallel="classes" name="Suite">
 
 <listeners>
- <listener class-name = "com.tutorialsNinja.Listeners.MyListeners" />
+ <listener class-name = "com.tutorialsNinja.Listeners.OurFrameworkListeners" />
 </listeners>
 
 
