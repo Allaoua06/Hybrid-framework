@@ -34,7 +34,7 @@ public class RegisterTest extends TestBase{
 	}
 	
 	
-	@Test(priority=1, dataProvider = "TNRegister", dataProviderClass = Topic1_ExcelCode.class, enabled = false)
+	@Test(priority=1, dataProvider = "TNRegister", dataProviderClass = Topic1_ExcelCode.class)
 	public void verifyRegisterWithMandatoryDetails(String firstname, String lastname, String telephone, String password, String confirmPassword) {
 		registerpage = new RegisterPage(driver);
 		accountsuccesspage	= registerpage.combineMandatoryDetailsToNavigateToAccountSuccessPage(firstname, lastname, Utils.emailWithDateTimeStamp(), telephone, password, confirmPassword);
